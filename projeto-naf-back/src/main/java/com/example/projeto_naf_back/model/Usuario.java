@@ -2,6 +2,8 @@ package com.example.projeto_naf_back.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +22,7 @@ public class Usuario {
     private String tipo; // (aluno/professor)
 
     @OneToMany(mappedBy = "usuario")
+    @JsonIgnore  
     private List<Agendamento> agendamentos;
 
 	public Long getId() {

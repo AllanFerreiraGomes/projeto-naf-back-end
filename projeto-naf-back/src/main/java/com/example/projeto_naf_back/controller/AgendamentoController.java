@@ -14,7 +14,7 @@ import com.example.projeto_naf_back.model.Agendamento;
 import com.example.projeto_naf_back.service.AgendamentoService;
 
 @RestController
-@RequestMapping("/api/agendamentos")
+@RequestMapping("/agendamentos")
 public class AgendamentoController {
     @Autowired
     private AgendamentoService agendamentoService;
