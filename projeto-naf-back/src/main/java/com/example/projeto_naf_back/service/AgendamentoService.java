@@ -24,10 +24,9 @@ public class AgendamentoService {
 		Agendamento savedAgendamento = agendamentoRepository.save(agendamento);
 
 		// Enviar notificação por e-mail
-		String mensagem = "Olá! Seu agendamento foi confirmado:\n" + "Data: " + agendamento.getDataHora() + "\n" + "Hora: "
-				+ agendamento.getDataHora();
+		
 		emailService.enviarEmailSimples("allanunifeso@gmail.com", // Trocar pelo e-mail real
-				"Confirmação de Agendamento", mensagem);
+				"Confirmação de Agendamento", agendamento.getDataHora());
 
 		return savedAgendamento;
 	}
