@@ -10,14 +10,25 @@ import com.example.projeto_naf_back.repository.AgendamentoRepository;
 
 @Service
 public class AgendamentoService {
-    @Autowired
-    private AgendamentoRepository agendamentoRepository;
+	@Autowired
+	private AgendamentoRepository agendamentoRepository;
 
-    public List<Agendamento> findAll() {
-        return agendamentoRepository.findAll();
-    }
+	@Autowired
+	private EmailService emailService;
 
-    public Agendamento save(Agendamento agendamento) {
-        return agendamentoRepository.save(agendamento);
-    }
+	public List<Agendamento> findAll() {
+		return agendamentoRepository.findAll();
+	}
+
+	public Agendamento save(Agendamento agendamento) {
+		Agendamento savedAgendamento = agendamentoRepository.save(agendamento);
+
+		// Enviar notificação por e-mail
+		String mensagem = "Olá! Seu agendamento foi confirmado:\n" + "Data: " + agendamento.getDataHora() + "\n" + "Hora: "
+				+ agendamento.getDataHora();
+		emailService.enviarEmailSimples("allanunifeso@gmail.com", // Trocar pelo e-mail real
+				"Confirmação de Agendamento", mensagem);
+
+		return savedAgendamento;
+	}
 }

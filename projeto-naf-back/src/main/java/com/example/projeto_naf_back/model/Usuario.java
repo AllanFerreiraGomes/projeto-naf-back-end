@@ -19,7 +19,7 @@ public class Usuario {
     private Long id;
     private String nome;
     private String email;
-    private String tipo; // (aluno/professor)
+    private String tipo; // (user/adm)
 
     @OneToMany(mappedBy = "usuario")
     @JsonIgnore  
