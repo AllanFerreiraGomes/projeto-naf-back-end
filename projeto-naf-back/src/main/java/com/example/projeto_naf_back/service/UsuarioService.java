@@ -27,4 +27,14 @@ public class UsuarioService {
 		// Retorna o usuário não salvo para indicar que o e-mail já está em uso
 		throw new UnmatchingIdsException("O e-mail já está cadastrado: " + usuario.getEmail());
 	}
+	
+	public void delete(Long usuarioId) {
+	    // Verifica se o usuário existe antes de tentar excluir
+	    Usuario usuario = usuarioRepository.findById(usuarioId)
+	            .orElseThrow(() -> new RuntimeException("Usuário com ID " + usuarioId + " não encontrado."));
+
+	    // Remove o usuário do banco de dados
+	    usuarioRepository.delete(usuario);
+	}
+
 }

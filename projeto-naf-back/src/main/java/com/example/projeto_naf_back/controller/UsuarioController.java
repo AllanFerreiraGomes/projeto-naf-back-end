@@ -5,22 +5,24 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.projeto_naf_back.model.Usuario;
+import com.example.projeto_naf_back.repository.UsuarioRepository;
 import com.example.projeto_naf_back.service.UsuarioService;
-
-
 
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
-    @Autowired
-    private UsuarioService usuarioService;
+	@Autowired
+	private UsuarioService usuarioService;
+
 
 //    @GetMapping
 //    public List<Usuario> getAllUsuarios() {
@@ -34,14 +36,24 @@ public class UsuarioController {
 		return new ResponseEntity<>(usuarioService.findAll(), HttpStatus.OK);
 	}
 
-    @PostMapping
+	@PostMapping
 	public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
-    	Usuario UserResponse = usuarioService.save(usuario);
+		Usuario UserResponse = usuarioService.save(usuario);
 		if (UserResponse == null) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
 		} else {
 			return new ResponseEntity<>(UserResponse, HttpStatus.OK);
 		}
 	}
-    
+
+	@DeleteMapping("/usuario/{id}")
+	public ResponseEntity<String> deleteUsuario(@PathVariable Long id) {
+		try {
+			usuarioService.delete(id);
+			return ResponseEntity.ok("Usuário excluído com sucesso.");
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+	}
+
 }
