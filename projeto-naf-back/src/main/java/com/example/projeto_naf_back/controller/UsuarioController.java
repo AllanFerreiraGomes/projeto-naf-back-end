@@ -15,6 +15,7 @@ import com.example.projeto_naf_back.model.Usuario;
 import com.example.projeto_naf_back.service.UsuarioService;
 
 
+
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -34,8 +35,13 @@ public class UsuarioController {
 	}
 
     @PostMapping
-    public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
-    	System.out.println("bateu ");
-        return ResponseEntity.ok(usuarioService.save(usuario));
-    }
+	public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
+    	Usuario UserResponse = usuarioService.save(usuario);
+		if (UserResponse == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
+		} else {
+			return new ResponseEntity<>(UserResponse, HttpStatus.OK);
+		}
+	}
+    
 }
