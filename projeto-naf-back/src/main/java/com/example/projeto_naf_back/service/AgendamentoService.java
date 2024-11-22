@@ -104,16 +104,16 @@ public class AgendamentoService {
     public void deleteAgendamento(Long agendamentoId, Long usuarioId) {
         // Recupera o agendamento
         Agendamento agendamento = agendamentoRepository.findById(agendamentoId)
-                .orElseThrow(() -> new RuntimeException("Agendamento não encontrado."));
+                .orElseThrow(() -> new UnmatchingIdsException("Agendamento não encontrado."));
 
         // Recupera o usuário que está tentando apagar
         Usuario usuario = usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+                .orElseThrow(() -> new UnmatchingIdsException("Usuário não encontrado."));
 
         // Verifica se o usuário tem permissão para excluir
         if (!agendamento.getUsuario().getId().equals(usuario.getId())
                 && usuario.getPerfil() != PerfilUsuario.ADMINISTRACAO) {
-            throw new RuntimeException("Você não tem permissão para excluir este agendamento.");
+            throw new UnmatchingIdsException("Você não tem permissão para excluir este agendamento.");
         }
 
         // Apaga o agendamento
