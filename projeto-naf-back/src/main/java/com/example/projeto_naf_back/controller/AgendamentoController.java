@@ -34,15 +34,11 @@ public class AgendamentoController {
         return ResponseEntity.ok(agendamentoSalvo);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAgendamento(@PathVariable Long id) {
-        try {
-            agendamentoService.delete(id);
-            return ResponseEntity.ok("Agendamento excluído com sucesso.");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    @DeleteMapping("/{agendamentoId}/usuario/{usuarioId}")
+    public ResponseEntity<Void> deleteAgendamento(@PathVariable Long agendamentoId, @PathVariable Long usuarioId) {
+    	System.out.println("bati");
+        agendamentoService.deleteAgendamento(agendamentoId, usuarioId);
+        return ResponseEntity.noContent().build();
     }
 
-    
 }

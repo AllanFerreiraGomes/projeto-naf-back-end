@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.projeto_naf_back.enuns.PerfilUsuario;
 import com.example.projeto_naf_back.exceptions.UnmatchingIdsException;
 import com.example.projeto_naf_back.model.Usuario;
 import com.example.projeto_naf_back.repository.UsuarioRepository;
@@ -28,13 +29,23 @@ public class UsuarioService {
 		throw new UnmatchingIdsException("O e-mail já está cadastrado: " + usuario.getEmail());
 	}
 	
-	public void delete(Long usuarioId) {
-	    // Verifica se o usuário existe antes de tentar excluir
-	    Usuario usuario = usuarioRepository.findById(usuarioId)
-	            .orElseThrow(() -> new RuntimeException("Usuário com ID " + usuarioId + " não encontrado."));
+	public void deleteUsuario(Long usuarioId, Long solicitanteId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
 
-	    // Remove o usuário do banco de dados
-	    usuarioRepository.delete(usuario);
-	}
+        Usuario solicitante = usuarioRepository.findById(solicitanteId)
+                .orElseThrow(() -> new RuntimeException("Solicitante não encontrado."));
 
+        if (solicitante.getPerfil() != PerfilUsuario.ADMINISTRACAO) {
+            throw new RuntimeException("Apenas administradores podem excluir usuários.");
+        }
+
+        usuarioRepository.deleteById(usuarioId);
+    }
+
+
+	  public List<Usuario> findByPerfil(PerfilUsuario perfil) {
+	        return usuarioRepository.findByPerfil(perfil);
+	    }
+	
 }

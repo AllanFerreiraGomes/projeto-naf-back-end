@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.projeto_naf_back.enuns.PerfilUsuario;
 import com.example.projeto_naf_back.model.Usuario;
-import com.example.projeto_naf_back.repository.UsuarioRepository;
 import com.example.projeto_naf_back.service.UsuarioService;
 
 @RestController
@@ -46,14 +46,15 @@ public class UsuarioController {
 		}
 	}
 
-	@DeleteMapping("/usuario/{id}")
-	public ResponseEntity<String> deleteUsuario(@PathVariable Long id) {
-		try {
-			usuarioService.delete(id);
-			return ResponseEntity.ok("Usuário excluído com sucesso.");
-		} catch (RuntimeException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		}
-	}
+	@GetMapping("/perfil/{perfil}")
+    public ResponseEntity<List<Usuario>> getUsuariosByPerfil(@PathVariable PerfilUsuario perfil) {
+        return ResponseEntity.ok(usuarioService.findByPerfil(perfil));
+    }
+	
+	 @DeleteMapping("/{usuarioId}/admin/{adminId}")
+	    public ResponseEntity<Void> deleteUsuario(@PathVariable Long usuarioId, @PathVariable Long adminId) {
+	        usuarioService.deleteUsuario(usuarioId, adminId);
+	        return ResponseEntity.noContent().build();
+	    }
 
 }
