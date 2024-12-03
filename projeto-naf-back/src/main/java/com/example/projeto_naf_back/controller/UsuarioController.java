@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.projeto_naf_back.dto.UsuarioDto;
 import com.example.projeto_naf_back.enuns.PerfilUsuario;
 import com.example.projeto_naf_back.model.Usuario;
 import com.example.projeto_naf_back.service.UsuarioService;
@@ -31,7 +32,7 @@ public class UsuarioController {
 //        return usuarioService.findAll();
 //    }
 	@GetMapping
-	public ResponseEntity<List<Usuario>> getAllUsers() {
+	public ResponseEntity<List<UsuarioDto>> getAllUsers() {
 		System.out.println("Bati");
 		return new ResponseEntity<>(usuarioService.findAll(), HttpStatus.OK);
 	}

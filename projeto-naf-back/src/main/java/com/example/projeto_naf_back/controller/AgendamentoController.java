@@ -3,7 +3,6 @@ package com.example.projeto_naf_back.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.projeto_naf_back.dto.AgendamentoDto;
 import com.example.projeto_naf_back.dto.SaveAgendamentoDto;
 import com.example.projeto_naf_back.model.Agendamento;
 import com.example.projeto_naf_back.service.AgendamentoService;
@@ -24,7 +24,7 @@ public class AgendamentoController {
     private AgendamentoService agendamentoService;
 
     @GetMapping
-    public List<Agendamento> getAllAgendamentos() {
+    public List<AgendamentoDto> getAllAgendamentos() {
         return agendamentoService.findAll();
     }
 
